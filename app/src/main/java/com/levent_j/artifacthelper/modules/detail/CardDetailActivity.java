@@ -4,6 +4,9 @@ import android.content.Intent;
 
 import com.levent_j.artifacthelper.R;
 import com.levent_j.artifacthelper.base.BaseActivity;
+import com.levent_j.artifacthelper.util.MyLog;
+
+import java.util.logging.Logger;
 
 /*********************************************************************
  * This file is part of Artifact project
@@ -19,7 +22,7 @@ public class CardDetailActivity extends BaseActivity{
 
     @Override
     protected void initPresenter() {
-
+        MyLog.d("init presenter");
     }
 
     @Override
