@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.trello.rxlifecycle2.components.RxActivity;
+
 import java.util.ArrayList;
 
 /*********************************************************************
@@ -11,7 +13,7 @@ import java.util.ArrayList;
  * Created by levent_j on 2018/12/03.
  * Copyright ￼ 2018 NetEase, Inc. - All Rights Reserved
  *********************************************************************/
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends RxActivity {
 
     private ArrayList<BasePresenter> mPresenters;
 

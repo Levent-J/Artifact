@@ -1,9 +1,13 @@
 package com.levent_j.artifacthelper.network;
 
 import com.levent_j.artifacthelper.BuildConfig;
+import com.levent_j.artifacthelper.pojo.CardSetRespone;
+import com.levent_j.artifacthelper.pojo.CardSetUrlRespone;
+import com.levent_j.artifacthelper.util.RxUtil;
 
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -51,4 +55,18 @@ public class Api {
 
         mService = retrofit.create(ApiService.class);
     }
+
+    public Observable<CardSetUrlRespone> getCardSetUrl(String setId){
+        return mService
+                .getCardSetUrl(BuildConfig.CARD_BASE_URL+setId)
+                .compose(RxUtil.<CardSetUrlRespone>RxSchedulers());
+    }
+
+    public Observable<CardSetRespone> getCardSet(String setUrl){
+        return mService
+                .getCardSet(setUrl)
+                .compose(RxUtil.<CardSetRespone>RxSchedulers());
+    }
+
+
 }

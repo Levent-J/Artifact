@@ -12,6 +12,10 @@ public class MyLog {
         Logger.d(msg);
     }
 
+    public static void d(Object o){
+        Logger.d(o);
+    }
+
     public static void e(String msg){
         Logger.e(msg);
     }
