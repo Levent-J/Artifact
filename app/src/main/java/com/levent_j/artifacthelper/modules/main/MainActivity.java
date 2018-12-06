@@ -1,45 +1,14 @@
 package com.levent_j.artifacthelper.modules.main;
 
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.levent_j.artifacthelper.R;
 import com.levent_j.artifacthelper.base.BaseActivity;
-import com.levent_j.artifacthelper.data.RealmHelper;
 import com.levent_j.artifacthelper.model.CardModel;
-import com.levent_j.artifacthelper.model.TestPerson;
-import com.levent_j.artifacthelper.network.Api;
-import com.levent_j.artifacthelper.pojo.Card;
-import com.levent_j.artifacthelper.pojo.CardSetInfo;
 import com.levent_j.artifacthelper.pojo.CardSetRespone;
-import com.levent_j.artifacthelper.pojo.CardSetUrlRespone;
 import com.levent_j.artifacthelper.util.Constans;
 import com.levent_j.artifacthelper.util.MyLog;
-import com.levent_j.artifacthelper.util.RxCallback;
-import com.levent_j.artifacthelper.util.RxUtil;
 
-import org.reactivestreams.Subscription;
-
-import java.time.Period;
-import java.util.ArrayList;
-import java.util.List;
-
-import io.reactivex.FlowableSubscriber;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
-import io.reactivex.ObservableTransformer;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
-import io.realm.Realm;
-import io.realm.RealmChangeListener;
-import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 /*********************************************************************
@@ -49,10 +18,9 @@ import io.realm.RealmResults;
  *********************************************************************/
 public class MainActivity extends BaseActivity implements IMainCallback {
 
+    private TextView mTest;
 
     private MainPresenter mMainPresenter;
-    private Realm realm;
-    private TextView mlog;
 
     @Override
     public int setLayoutId() {
@@ -66,79 +34,41 @@ public class MainActivity extends BaseActivity implements IMainCallback {
 
     @Override
     protected void initView() {
-        mlog = findViewById(R.id.tv_test_log);
-        findViewById(R.id.btn_test_add).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               mMainPresenter.getCardListFromServer();
-            }
-        });
-
-        findViewById(R.id.btn_test_query).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMainPresenter.getCardListFromDB();
-            }
-        });
-
-        findViewById(R.id.btn_test_update).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RealmQuery<TestPerson> query = realm.where(TestPerson.class);
-                query.equalTo("name","111");
-                final RealmResults<TestPerson> realmResults = query.findAll();
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        realmResults.deleteAllFromRealm();
-                    }
-                });
-            }
-        });
-
-        findViewById(R.id.btn_test_update).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                final TestPerson person = new TestPerson();
-                person.setName("111");
-                person.setAge(222);
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        realm.copyToRealmOrUpdate(person);
-                    }
-                });
-
-//                RealmQuery<TestPerson> query = realm.where(TestPerson.class);
-//                query.equalTo("name","111");
-//                final RealmResults<TestPerson> realmResults = query.findAll();
-//                realm.executeTransaction(new Realm.Transaction() {
-//                    @Override
-//                    public void execute(Realm realm) {
-//                        realmResults.deleteAllFromRealm();
-//                    }
-//                });
-            }
-        });
-
-
+        mTest = findViewById(R.id.tv_test);
     }
-
-
 
 
 
     @Override
     protected void initData() {
-        realm  = Realm.getDefaultInstance();
+        //先从本地数据库中查询所有的卡牌
+        mMainPresenter.getAllCardListLocal();
+        MyLog.d("init Data");
     }
 
     @Override
-    public void onGetCardList(RealmResults<CardModel> list) {
-        for (CardModel model : list) {
+    public void onGetAllCardDataLocal(RealmResults<CardModel> list) {
+        MyLog.d("get data: " +  list.size());
 
-            mlog.setText(mlog.getText()+"\n"+model);
+        if (list.size()==0){
+            //本地数据库为空 需要从服务器获取
+            mMainPresenter.getCardListFromServer(Constans.SET_CARD_SET_BASE);
+            mMainPresenter.getCardListFromServer(Constans.SET_CARD_SET_ARMS);
         }
+        String s = "";
+        for (CardModel model : list) {
+            s+="\n";
+            s += model.toString();
+        }
+        mTest.setText(s);
+
+    }
+
+    @Override
+    public void onGetAllCardDataServe(CardSetRespone.CardSet cardSet) {
+        //获取到了新的数据 首先更新数据库
+        mMainPresenter.updateAllCardData(cardSet);
+        //其次更新UI展示
+        mTest.setText("一共有"+cardSet.cardList.size());
     }
 }

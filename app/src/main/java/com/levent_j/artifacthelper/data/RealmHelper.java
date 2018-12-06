@@ -7,7 +7,9 @@ import com.levent_j.artifacthelper.pojo.Card;
 import com.levent_j.artifacthelper.pojo.CardSetInfo;
 import com.levent_j.artifacthelper.pojo.CardSetRespone;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.realm.Realm;
@@ -49,6 +51,12 @@ public class RealmHelper {
         return this;
     }
 
+    public void removeRealmObject(BasePresenter presenter) {
+        mRealm = mRealms.get(presenter);
+        mRealm.removeAllChangeListeners();
+        mRealm.close();
+    }
+
     public void insertOrUpdateCardData(Card pojo, CardSetInfo cardSet, Realm.Transaction.OnSuccess onSuccess){
         CardModel cardModel = new CardModel();
         cardModel.transformFromPojo(pojo, cardSet.name.name);
@@ -56,6 +64,23 @@ public class RealmHelper {
             @Override
             public void execute(Realm realm) {
                 realm.copyToRealmOrUpdate(cardModel);
+            }
+        },onSuccess);
+    }
+
+    public void insertOrUpdateCardData(List<Card> pojos, CardSetInfo cardSet){
+        List<CardModel> cardModels = new ArrayList<>();
+        for (Card pojo : pojos) {
+            CardModel cardModel = new CardModel();
+            cardModel.transformFromPojo(pojo,cardSet.name.name);
+            cardModels.add(cardModel);
+        }
+        mRealm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                for (CardModel cardModel : cardModels) {
+                    realm.copyToRealmOrUpdate(cardModel);
+                }
             }
         });
     }
@@ -66,7 +91,4 @@ public class RealmHelper {
         realmResults.addChangeListener(changeListener);
 //        return realmResults;
     }
-
-
-
 }

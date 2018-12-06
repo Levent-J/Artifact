@@ -28,5 +28,8 @@ public class App extends Application {
         //realm
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name("testRealm.realm").build();
         Realm.setDefaultConfiguration(realmConfiguration);
+
+        //
+        GlobalData.initialize(this);
     }
 }

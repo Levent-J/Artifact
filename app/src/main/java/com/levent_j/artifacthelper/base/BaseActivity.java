@@ -2,7 +2,6 @@ package com.levent_j.artifacthelper.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import com.trello.rxlifecycle2.components.RxActivity;
 
@@ -32,7 +31,7 @@ public abstract class BaseActivity extends RxActivity {
 
         if (mPresenters != null) {
             for (BasePresenter each : mPresenters) {
-                each.onDestory();
+                each.onDestroy();
             }
             mPresenters.clear();
         }

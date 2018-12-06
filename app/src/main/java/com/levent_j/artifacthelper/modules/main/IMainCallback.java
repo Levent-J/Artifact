@@ -1,8 +1,7 @@
 package com.levent_j.artifacthelper.modules.main;
 
 import com.levent_j.artifacthelper.model.CardModel;
-
-import java.util.List;
+import com.levent_j.artifacthelper.pojo.CardSetRespone;
 
 import io.realm.RealmResults;
 
@@ -12,5 +11,6 @@ import io.realm.RealmResults;
  * Copyright ￼ 2018 NetEase, Inc. - All Rights Reserved
  *********************************************************************/
 public interface IMainCallback {
-    void onGetCardList(RealmResults<CardModel> list);
+    void onGetAllCardDataLocal(RealmResults<CardModel> list);
+    void onGetAllCardDataServe(CardSetRespone.CardSet cardSet);
 }

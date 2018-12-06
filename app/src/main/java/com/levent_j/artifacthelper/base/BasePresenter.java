@@ -6,5 +6,5 @@ package com.levent_j.artifacthelper.base;
  * Copyright ￼ 2018 NetEase, Inc. - All Rights Reserved
  *********************************************************************/
 public abstract class BasePresenter {
-    public abstract void onDestory();
+    public abstract void onDestroy();
 }
