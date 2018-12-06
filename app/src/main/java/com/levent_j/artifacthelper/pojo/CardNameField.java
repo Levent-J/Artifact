@@ -10,11 +10,14 @@ import com.google.gson.annotations.SerializedName;
 public class CardNameField {
     @SerializedName("schinese")
     public String name;
+    @SerializedName("default")
+    public String defaultName;
 
     @Override
     public String toString() {
         return "CardNameField{" +
                 "name='" + name + '\'' +
+                ", defaultName='" + defaultName + '\'' +
                 '}';
     }
 }
