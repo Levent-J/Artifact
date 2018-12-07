@@ -17,9 +17,6 @@ import io.realm.RealmResults;
  * Copyright ￼ 2018 NetEase, Inc. - All Rights Reserved
  *********************************************************************/
 public class MainActivity extends BaseActivity implements IMainCallback {
-
-    private TextView mTest;
-
     private MainPresenter mMainPresenter;
     private int syncCardSet = 2;
 
@@ -35,7 +32,6 @@ public class MainActivity extends BaseActivity implements IMainCallback {
 
     @Override
     protected void initView() {
-        mTest = findViewById(R.id.tv_test);
     }
 
 
@@ -62,7 +58,7 @@ public class MainActivity extends BaseActivity implements IMainCallback {
             s+="\n";
             s += model.toString();
         }
-        mTest.setText(s);
+//        mTest.setText(s);
 
     }
 
@@ -72,7 +68,7 @@ public class MainActivity extends BaseActivity implements IMainCallback {
         //获取到了新的数据 首先更新数据库
         mMainPresenter.updateLocalCardData(cardSet);
         //其次更新UI展示
-        mTest.setText("一共有"+cardSet.cardList.size());
+//        mTest.setText("一共有"+cardSet.cardList.size());
         syncCardSet--;
         if (syncCardSet==0){
             //同步完成 可以开始展示全部数据了

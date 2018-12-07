@@ -8,14 +8,10 @@
     tools:context=".modules.main.MainActivity"
     android:orientation="vertical">
 
-    <Button
-        android:layout_width="360dp"
-        android:layout_height="200dp"/>
-
-    <TextView
-        android:id="@+id/tv_test"
+    <android.support.v7.widget.Toolbar
+        android:background="@color/color_primary"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"/>
 
 
 
