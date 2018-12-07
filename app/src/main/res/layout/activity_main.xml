@@ -8,6 +8,10 @@
     tools:context=".modules.main.MainActivity"
     android:orientation="vertical">
 
+    <Button
+        android:layout_width="360dp"
+        android:layout_height="200dp"/>
+
     <TextView
         android:id="@+id/tv_test"
         android:layout_width="match_parent"
