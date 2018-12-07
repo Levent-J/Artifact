@@ -11,6 +11,6 @@ import io.realm.RealmResults;
  * Copyright ￼ 2018 NetEase, Inc. - All Rights Reserved
  *********************************************************************/
 public interface IMainCallback {
-    void onGetAllCardDataLocal(RealmResults<CardModel> list);
-    void onGetAllCardDataServe(CardSetRespone.CardSet cardSet);
+    void onGetLocalCardData(RealmResults<CardModel> list);
+    void onGetServerCardData(CardSetRespone.CardSet cardSet);
 }

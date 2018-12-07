@@ -21,6 +21,7 @@ public class MainActivity extends BaseActivity implements IMainCallback {
     private TextView mTest;
 
     private MainPresenter mMainPresenter;
+    private int syncCardSet = 2;
 
     @Override
     public int setLayoutId() {
@@ -42,18 +43,19 @@ public class MainActivity extends BaseActivity implements IMainCallback {
     @Override
     protected void initData() {
         //先从本地数据库中查询所有的卡牌
-        mMainPresenter.getAllCardListLocal();
+        mMainPresenter.getLocalCardData();
         MyLog.d("init Data");
     }
 
     @Override
-    public void onGetAllCardDataLocal(RealmResults<CardModel> list) {
-        MyLog.d("get data: " +  list.size());
+    public void onGetLocalCardData(RealmResults<CardModel> list) {
+        MyLog.d(" onGetLocalCardData " +  list.size());
 
         if (list.size()==0){
             //本地数据库为空 需要从服务器获取
-            mMainPresenter.getCardListFromServer(Constans.SET_CARD_SET_BASE);
-            mMainPresenter.getCardListFromServer(Constans.SET_CARD_SET_ARMS);
+            mMainPresenter.getServerCardData(Constans.SET_CARD_SET_BASE);
+            mMainPresenter.getServerCardData(Constans.SET_CARD_SET_ARMS);
+            return;
         }
         String s = "";
         for (CardModel model : list) {
@@ -65,10 +67,16 @@ public class MainActivity extends BaseActivity implements IMainCallback {
     }
 
     @Override
-    public void onGetAllCardDataServe(CardSetRespone.CardSet cardSet) {
+    public void onGetServerCardData(CardSetRespone.CardSet cardSet) {
+        MyLog.d(" onGetServerCardData " + cardSet.cardList.size());
         //获取到了新的数据 首先更新数据库
-        mMainPresenter.updateAllCardData(cardSet);
+        mMainPresenter.updateLocalCardData(cardSet);
         //其次更新UI展示
         mTest.setText("一共有"+cardSet.cardList.size());
+        syncCardSet--;
+        if (syncCardSet==0){
+            //同步完成 可以开始展示全部数据了
+            mMainPresenter.getLocalCardData();
+        }
     }
 }

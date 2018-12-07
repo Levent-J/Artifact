@@ -59,7 +59,12 @@ public class Api {
         mService = retrofit.create(ApiService.class);
     }
 
-    public String getCardSetUrlLocal(String cardSet) {
+    /**
+     * 获取缓存的CardSet的URL
+     * @param cardSet
+     * @return
+     */
+    private String getCardSetUrlLocal(String cardSet) {
         //先查一下 本地是否缓存了url
         String url = (String) SharedUtil.get(cardSet + Constans.SP_KEY_URL, "");
         if (!url.isEmpty()) {
@@ -70,15 +75,14 @@ public class Api {
             }
         }
         //重新获取url
-        return getCardSetUrlServer(cardSet);
-    }
-
-    private String getCardSetUrlServer(String cardSet) {
-
         return null;
     }
 
-
+    /**
+     * 获取CardSet
+     * @param cardSet
+     * @return
+     */
     public Observable<CardSetRespone> getCardSet(String cardSet) {
         //先获取url
         String url = getCardSetUrlLocal(cardSet);

@@ -4,12 +4,9 @@ import com.levent_j.artifacthelper.base.BasePresenter;
 import com.levent_j.artifacthelper.data.RealmHelper;
 import com.levent_j.artifacthelper.model.CardModel;
 import com.levent_j.artifacthelper.network.Api;
-import com.levent_j.artifacthelper.pojo.Card;
 import com.levent_j.artifacthelper.pojo.CardSetRespone;
 import com.levent_j.artifacthelper.util.MyLog;
 import com.levent_j.artifacthelper.util.RxCallback;
-
-import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -30,14 +27,18 @@ public class MainPresenter extends BasePresenter{
         RealmHelper.getInstance().setRealmObject(this);
     }
 
-    public void getCardListFromServer(String cardSet){
+    /**
+     * 获取服务器的卡牌
+     * @param cardSet 卡包名称
+     */
+    public void getServerCardData(String cardSet){
         Api.getInstance()
                 .getCardSet(cardSet)
                 .compose(((MainActivity) mCallback).bindToLifecycle())
                 .subscribe(new RxCallback<CardSetRespone>() {
                     @Override
                     public void onSuccess(CardSetRespone cardSetRespone) {
-                        mCallback.onGetAllCardDataServe(cardSetRespone.cardSet);
+                        mCallback.onGetServerCardData(cardSetRespone.cardSet);
                     }
 
                     @Override
@@ -47,22 +48,27 @@ public class MainPresenter extends BasePresenter{
                 });
     }
 
-
-
-    public void getAllCardListLocal(){
+    /**
+     * 获取本地的所有卡牌数据
+     */
+    public void getLocalCardData(){
         RealmHelper
                 .getInstance()
                 .getReamObject(this)
                 .queryAllCardaData(new RealmChangeListener<RealmResults<CardModel>>() {
                     @Override
                     public void onChange(RealmResults<CardModel> cardModels) {
-                        mCallback.onGetAllCardDataLocal(cardModels);
+                        mCallback.onGetLocalCardData(cardModels);
                     }
                 });
     }
 
 
-    public void updateAllCardData(CardSetRespone.CardSet cardSet) {
+    /**
+     * 更新本地的卡牌数据
+     * @param cardSet
+     */
+    public void updateLocalCardData(CardSetRespone.CardSet cardSet) {
             RealmHelper.getInstance()
                     .getReamObject(this)
                     .insertOrUpdateCardData(cardSet.cardList, cardSet.cardSetInfo);
