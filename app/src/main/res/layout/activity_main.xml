@@ -9,9 +9,15 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
+        app:title="@string/card_list"
+        app:titleMarginStart="18dp"
+        app:titleTextColor="@color/color_text_white"
+        android:id="@+id/tool_bar"
         android:background="@color/color_primary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        />
 
 
 
