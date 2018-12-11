@@ -16,6 +16,7 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /*********************************************************************
  * This file is part of Artifact project
@@ -86,8 +87,11 @@ public class RealmHelper {
     }
 
     public void queryAllCardaData(RealmChangeListener<RealmResults<CardModel>> changeListener){
-        RealmQuery<CardModel> query = mRealm.where(CardModel.class);
-        RealmResults<CardModel> realmResults = query.findAllAsync();
+        RealmResults<CardModel> realmResults = mRealm
+                .where(CardModel.class)
+                .in("cardType",new String[]{"Hero", "Creep", "Spell", "Item", "Improvement"})
+                .sort("cardType",Sort.ASCENDING,"cardName",Sort.ASCENDING)
+                .findAllAsync();
         realmResults.addChangeListener(changeListener);
 //        return realmResults;
     }

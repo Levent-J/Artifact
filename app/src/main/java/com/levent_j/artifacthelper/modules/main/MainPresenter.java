@@ -49,7 +49,7 @@ public class MainPresenter extends BasePresenter{
     }
 
     /**
-     * 获取本地的所有卡牌数据
+     * 获取本地 除建筑 路线等类型之外 其他的所有卡牌数据
      */
     public void getLocalCardData(){
         RealmHelper

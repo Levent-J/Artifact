@@ -63,4 +63,9 @@ dependencies {
     //lifecycle
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
 
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+
+
 }

@@ -15,6 +15,8 @@ import java.util.logging.Logger;
  *********************************************************************/
 
 public class CardDetailActivity extends BaseActivity{
+    private static final String EXTRA_CARD_ID = "card_id";
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_card_detail;
@@ -32,11 +34,13 @@ public class CardDetailActivity extends BaseActivity{
 
     @Override
     protected void initData() {
-
+        String cardId = getIntent().getStringExtra(EXTRA_CARD_ID);
+        MyLog.d("card  id " + cardId);
     }
 
-    public static void openActivity(BaseActivity activity){
+    public static void openActivity(BaseActivity activity,String cardId){
         Intent intent = new Intent(activity,CardDetailActivity.class);
+        intent.putExtra(EXTRA_CARD_ID,cardId);
         activity.startActivity(intent);
     }
 }

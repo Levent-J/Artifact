@@ -16,9 +16,12 @@
         android:background="@color/color_primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rlv_card_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 
 
