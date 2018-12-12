@@ -8,4 +8,5 @@
     <color name="color_secondary_light">#ee98fb</color>
     <color name="color_secondary_dark">#883997</color>
     <color name="color_text_white">#ffffff</color>
+    <color name="color_text_black">#000000</color>
 </resources>

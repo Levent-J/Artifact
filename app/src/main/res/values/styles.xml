@@ -15,7 +15,7 @@
     <style name="Widget.SearchView" parent="Widget.AppCompat.SearchView">
         <!--修改搜索框提示文字-->
         <!--<item name="defaultQueryHint"></item>-->
-        修改打开搜索框的搜索按钮的图标
+        <!--修改打开搜索框的搜索按钮的图标-->
         <item name="searchIcon">@drawable/icon_search</item>
         <!--修改搜索框左边的搜索按钮图标-->
         <item name="searchHintIcon">@null</item>

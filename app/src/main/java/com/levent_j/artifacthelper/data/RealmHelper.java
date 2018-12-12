@@ -8,6 +8,9 @@ import com.levent_j.artifacthelper.pojo.CardSetInfo;
 import com.levent_j.artifacthelper.pojo.CardSetRespone;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,5 +97,22 @@ public class RealmHelper {
                 .findAllAsync();
         realmResults.addChangeListener(changeListener);
 //        return realmResults;
+    }
+
+    public void queryCardData(String cardId, RealmChangeListener<RealmResults<CardModel>> changeListener){
+        RealmResults<CardModel> realmResults = mRealm.where(CardModel.class)
+                .equalTo("cardId",cardId)
+                .findAllAsync();
+        realmResults.addChangeListener(changeListener);
+
+    }
+
+    public void queryCardData(String[] cardIds, RealmChangeListener<RealmResults<CardModel>> changeListener){
+
+        RealmResults<CardModel> realmResults = mRealm.where(CardModel.class)
+                .in("cardId", cardIds)
+                .findAllAsync();
+        realmResults.addChangeListener(changeListener);
+
     }
 }

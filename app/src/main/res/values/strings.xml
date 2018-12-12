@@ -3,4 +3,5 @@
     <string name="menu_main_search">搜索</string>
     <string name="menu_main_filter">筛选</string>
     <string name="card_list">卡牌列表</string>
+    <string name="card_detail">卡牌详情</string>
 </resources>
