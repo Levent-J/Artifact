@@ -1,6 +1,8 @@
 package com.levent_j.artifacthelper.modules.detail;
 
 import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,7 +30,7 @@ import io.realm.RealmList;
  * Copyright ￼ 2018 NetEase, Inc. - All Rights Reserved
  *********************************************************************/
 
-public class CardDetailActivity extends BaseActivity implements ICardDetailCallback {
+public class CardDetailActivity extends BaseActivity implements ICardDetailCallback, RefCardListAdapter.IRefCardItemClickListener {
     private static final String EXTRA_CARD_ID = "card_id";
 
     private Toolbar mToolbar;
@@ -39,8 +41,11 @@ public class CardDetailActivity extends BaseActivity implements ICardDetailCallb
     private TextView mCardSet;
     private TextView mCardColor;
     private TextView mCardIllustrator;
+    private TextView mRefCardTitle;
+    private RecyclerView mRefCardListView;
 
     private CardDetailPresenter mCardDetailPresenter;
+    private RefCardListAdapter mRefCardListAdapter;
 
     @Override
     protected int setLayoutId() {
@@ -64,6 +69,8 @@ public class CardDetailActivity extends BaseActivity implements ICardDetailCallb
         mCardSet = findViewById(R.id.tv_card_set);
         mCardColor = findViewById(R.id.tv_card_color);
         mCardIllustrator = findViewById(R.id.tv_card_illustrator);
+        mRefCardListView = findViewById(R.id.rlv_ref_card_list);
+        mRefCardTitle = findViewById(R.id.tv_card_ref_card);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +78,10 @@ public class CardDetailActivity extends BaseActivity implements ICardDetailCallb
                 onBackPressed();
             }
         });
+
+        mRefCardListAdapter = new RefCardListAdapter(this);
+        mRefCardListView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        mRefCardListView.setAdapter(mRefCardListAdapter);
     }
 
     @Override
@@ -95,12 +106,18 @@ public class CardDetailActivity extends BaseActivity implements ICardDetailCallb
                 .load(cardModel.largeImgUrl)
                 .into(mCardLargeImg);
 
-        mCardText.setText(cardModel.cardText);
+        String text = ShowUtls.getHtmlText(cardModel.cardText);
+        if (text.isEmpty()){
+            mCardText.setVisibility(View.GONE);
+        }else {
+            mCardText.setText(text);
+        }
+
         mCardRarity.setText(ShowUtls.getRarityText(cardModel.rarity));
-        mCardType.setText(cardModel.cardType);
+        mCardType.setText(ShowUtls.getCardType(cardModel.cardType));
         mCardIllustrator.setText(cardModel.illustrator);
         mCardSet.setText(cardModel.cardSet);
-        mCardColor.setText(cardModel.color);
+        mCardColor.setText(ShowUtls.getColor(cardModel.color));
         //再获取相关卡牌
         RealmList<RefCardModel> reflist = cardModel.refCards;
         String[] refIds = new String[reflist.size()];
@@ -112,6 +129,17 @@ public class CardDetailActivity extends BaseActivity implements ICardDetailCallb
 
     @Override
     public void onGetRefCard(List<CardModel> list) {
-        Toast.makeText(this,"相关卡牌有" + list.size() + "张", Toast.LENGTH_SHORT).show();
+        MyLog.d(list.size());
+        if (list.size()==0){
+            mRefCardTitle.setVisibility(View.GONE);
+            mRefCardListView.setVisibility(View.GONE);
+        }else {
+            mRefCardListAdapter.setUpData(list);
+        }
+    }
+
+    @Override
+    public void onCardClick(CardModel cardModel) {
+        CardDetailActivity.openActivity(this,cardModel.cardId);
     }
 }

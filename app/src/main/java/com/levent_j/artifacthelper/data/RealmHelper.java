@@ -111,6 +111,7 @@ public class RealmHelper {
 
         RealmResults<CardModel> realmResults = mRealm.where(CardModel.class)
                 .in("cardId", cardIds)
+                .in("cardType",new String[]{"Hero", "Creep", "Spell", "Item", "Improvement"})
                 .findAllAsync();
         realmResults.addChangeListener(changeListener);
 

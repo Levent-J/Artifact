@@ -25,7 +25,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="40dp">
 
             <ImageView
                 android:id="@+id/iv_card_large_img"
@@ -34,7 +35,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="6dp"/>
+                android:layout_marginBottom="6dp"
+                android:visibility="visible"/>
 
             <TextView
                 android:id="@+id/tv_card_text_title"
@@ -187,7 +189,15 @@
                 android:textColor="@color/color_text_black"
                 android:textSize="18sp"/>
 
-
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rlv_ref_card_list"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_below="@+id/tv_card_ref_card"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginBottom="6dp"/>
 
 
         </RelativeLayout>
