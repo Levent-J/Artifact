@@ -1,18 +1,24 @@
 package com.levent_j.artifacthelper.modules.main;
 
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Filter;
 import android.widget.Toast;
 
 import com.levent_j.artifacthelper.R;
 import com.levent_j.artifacthelper.base.BaseActivity;
 import com.levent_j.artifacthelper.model.CardModel;
 import com.levent_j.artifacthelper.modules.detail.CardDetailActivity;
+import com.levent_j.artifacthelper.modules.filter.FilterDrawer;
+import com.levent_j.artifacthelper.modules.menu.MenuDrawer;
 import com.levent_j.artifacthelper.pojo.CardSetRespone;
 import com.levent_j.artifacthelper.util.Constans;
 import com.levent_j.artifacthelper.util.MyLog;
@@ -29,6 +35,9 @@ public class MainActivity extends BaseActivity implements IMainCallback, Toolbar
     private Toolbar mToolbar;
     private SearchView mSearchView;
     private RecyclerView mCardListView;
+    private DrawerLayout mDrawerLayout;
+    private MenuDrawer mMenuDrawer;
+    private FilterDrawer mFilterDrawer;
 
     private CardListAdapter mCardListAdapter;
 
@@ -49,14 +58,26 @@ public class MainActivity extends BaseActivity implements IMainCallback, Toolbar
     protected void initView() {
         mToolbar = findViewById(R.id.tool_bar);
         mCardListView = findViewById(R.id.rlv_card_list);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mMenuDrawer = findViewById(R.id.drawer_menu);
+        mFilterDrawer = findViewById(R.id.drawer_filter);
 
         mToolbar.inflateMenu(R.menu.menu_main);
         mToolbar.setOnMenuItemClickListener(this);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //在此打开左侧菜单栏
+//                Toast.makeText(MainActivity.this,"菜单栏",Toast.LENGTH_SHORT).show();
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
 
         mCardListAdapter = new CardListAdapter(this);
         mCardListView.setLayoutManager(new GridLayoutManager(this, 3));
-//        mCardListView.setHasFixedSize(true);
         mCardListView.setAdapter(mCardListAdapter);
+
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,Gravity.RIGHT);
 
     }
 
@@ -118,7 +139,7 @@ public class MainActivity extends BaseActivity implements IMainCallback, Toolbar
 
                 break;
             case R.id.menu_main_filter:
-                Toast.makeText(this, "筛选", Toast.LENGTH_SHORT).show();
+                mDrawerLayout.openDrawer(Gravity.RIGHT);
                 break;
         }
         return true;
@@ -128,4 +149,5 @@ public class MainActivity extends BaseActivity implements IMainCallback, Toolbar
     public void onCardItemClick(CardModel model) {
         CardDetailActivity.openActivity(this,model.cardId);
     }
+
 }
