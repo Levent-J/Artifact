@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".modules.detail.CardDetailActivity"/>
+        <activity android:name=".modules.filter.CardFilterActivity"/>
     </application>
 
 </manifest>

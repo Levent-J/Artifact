@@ -40,13 +40,6 @@
         android:layout_height="match_parent"/>
 
 
-    <com.levent_j.artifacthelper.modules.filter.FilterDrawer
-        android:id="@+id/drawer_filter"
-        android:layout_gravity="right"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"/>
-
-
 
 
 </android.support.v4.widget.DrawerLayout>

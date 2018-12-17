@@ -10,14 +10,12 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Filter;
-import android.widget.Toast;
 
 import com.levent_j.artifacthelper.R;
 import com.levent_j.artifacthelper.base.BaseActivity;
 import com.levent_j.artifacthelper.model.CardModel;
 import com.levent_j.artifacthelper.modules.detail.CardDetailActivity;
-import com.levent_j.artifacthelper.modules.filter.FilterDrawer;
+import com.levent_j.artifacthelper.modules.filter.CardFilterActivity;
 import com.levent_j.artifacthelper.modules.menu.MenuDrawer;
 import com.levent_j.artifacthelper.pojo.CardSetRespone;
 import com.levent_j.artifacthelper.util.Constans;
@@ -37,7 +35,6 @@ public class MainActivity extends BaseActivity implements IMainCallback, Toolbar
     private RecyclerView mCardListView;
     private DrawerLayout mDrawerLayout;
     private MenuDrawer mMenuDrawer;
-    private FilterDrawer mFilterDrawer;
 
     private CardListAdapter mCardListAdapter;
 
@@ -60,7 +57,6 @@ public class MainActivity extends BaseActivity implements IMainCallback, Toolbar
         mCardListView = findViewById(R.id.rlv_card_list);
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mMenuDrawer = findViewById(R.id.drawer_menu);
-        mFilterDrawer = findViewById(R.id.drawer_filter);
 
         mToolbar.inflateMenu(R.menu.menu_main);
         mToolbar.setOnMenuItemClickListener(this);
@@ -106,6 +102,7 @@ public class MainActivity extends BaseActivity implements IMainCallback, Toolbar
 //        }
 //        mTest.setText(s);
         mCardListAdapter.setUpData(list);
+
     }
 
     @Override
@@ -139,7 +136,7 @@ public class MainActivity extends BaseActivity implements IMainCallback, Toolbar
 
                 break;
             case R.id.menu_main_filter:
-                mDrawerLayout.openDrawer(Gravity.RIGHT);
+                CardFilterActivity.openActivity(this);
                 break;
         }
         return true;
