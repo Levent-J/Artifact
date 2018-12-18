@@ -35,4 +35,10 @@ public class CardFilterActivity extends BaseActivity {
         Intent intent = new Intent(activity,CardFilterActivity.class);
         activity.startActivity(intent);
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.slide_out_right);
+    }
 }

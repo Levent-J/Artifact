@@ -137,6 +137,7 @@ public class MainActivity extends BaseActivity implements IMainCallback, Toolbar
                 break;
             case R.id.menu_main_filter:
                 CardFilterActivity.openActivity(this);
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_no);
                 break;
         }
         return true;
