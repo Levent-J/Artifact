@@ -1,5 +1,19 @@
 package com.levent_j.artifacthelper.util;
 
+import android.graphics.Color;
+import android.text.Editable;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
+
+import org.xml.sax.XMLReader;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
+
 /*********************************************************************
  * This file is part of Artifact project
  * Created by levent_j on 2018/12/12.
@@ -22,11 +36,13 @@ public class ShowUtls {
         }
     }
 
-    public static String getHtmlText(String text){
+    public static Spanned getHtmlText(String text){
         if (text == null){
-            text = "";
+            return  null;
         }
-        return text;
+        Spanned s = Html.fromHtml(text);
+        MyLog.d(s.toString());
+        return s;
     }
 
     public static String getCardType(String type){

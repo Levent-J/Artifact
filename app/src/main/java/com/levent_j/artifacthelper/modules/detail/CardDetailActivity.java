@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -106,11 +108,11 @@ public class CardDetailActivity extends BaseActivity implements ICardDetailCallb
                 .load(cardModel.largeImgUrl)
                 .into(mCardLargeImg);
 
-        String text = ShowUtls.getHtmlText(cardModel.cardText);
-        if (text.isEmpty()){
+        Spanned spanned = ShowUtls.getHtmlText(cardModel.cardText);
+        if (spanned == null){
             mCardText.setVisibility(View.GONE);
         }else {
-            mCardText.setText(text);
+            mCardText.setText(spanned);
         }
 
         mCardRarity.setText(ShowUtls.getRarityText(cardModel.rarity));
