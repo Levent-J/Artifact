@@ -9,4 +9,6 @@
     <color name="color_secondary_dark">#883997</color>
     <color name="color_text_white">#ffffff</color>
     <color name="color_text_black">#ac000000</color>
+    <color name="color_button_gray">#6a6a6a</color>
+    <color name="color_bbbbbb">#BBBBBB</color>
 </resources>
